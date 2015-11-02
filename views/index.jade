@@ -1,0 +1,13 @@
+//- index.jade
+extends ./layout.jade
+
+block title
+  title All ToDos
+
+block content
+  h1 ToDo list
+  #container.col
+    ul
+      each val, index in todos
+        li
+          a(href="/todo/"+val.id)= val.name

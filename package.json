@@ -1,0 +1,16 @@
+{
+  "name": "todo-node-react",
+  "version": "0.0.1",
+  "description": "A demo node react todo app for mobile life",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simonhn/todo-node-react"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "lodash": "^3.10.1"
+  }
+}
