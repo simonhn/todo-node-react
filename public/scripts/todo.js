@@ -1,17 +1,15 @@
 var ToDoBox = React.createClass({
   delc: function(data_id) {
-    console.log(data_id);
     var toDoItems = this.state.data;
     var newToDoItems = toDoItems.filter(function(elem) {
       return elem.id != data_id;
     });
-    
     this.setState({data: newToDoItems});
+
     $.ajax({
       type: 'DELETE',
-      url: '/api/todos/' + data_id + '/',
+      url: this.props.url +'/'+ data_id,
       success: function() {
-          //...
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -19,7 +17,6 @@ var ToDoBox = React.createClass({
     });
   },
   handleToDoSubmit: function(toDoItem) {
-    
     //update todo list before actually sending to server :)
     var toDoItems = this.state.data;
     var newToDoItems = toDoItems.concat([toDoItem]);
@@ -58,28 +55,9 @@ var ToDoBox = React.createClass({
   render: function() {
     return (
       <div className="toDoBox">
-        <h1>ToDo listen over alle todo lister</h1>
-        <ToDoList del={this.delc} data={this.state.data} />
+        <h1>ToDo</h1>
         <ToDoForm onToDoSubmit={this.handleToDoSubmit} />
-      </div>
-    );
-  }
-});
-
-var ToDoItem = React.createClass({
-  handleClick: function(e){
-    console.log(this.props);
-    e.preventDefault();
-    var toDoItemId = this.props.todoitem.id;
-    return this.props.onDelete(toDoItemId);
-  },
-  render: function() {
-    return (
-      <div className="toDoItem">
-        <div className="toDoName">
-          {this.props.todoitem.name}
-        </div>
-        <button onClick={this.handleClick} className="delete"></button>
+        <ToDoList del={this.delc} data={this.state.data} />
       </div>
     );
   }
@@ -105,6 +83,24 @@ var ToDoList = React.createClass({
   }
 });
 
+var ToDoItem = React.createClass({
+  handleClick: function(e){
+    e.preventDefault();
+    var toDoItemId = this.props.todoitem.id;
+    return this.props.onDelete(toDoItemId);
+  },
+  render: function() {
+    return (
+      <div className="toDoItem">
+        <button onClick={this.handleClick} className="delete"></button>
+        <div className="toDoName">
+          {this.props.todoitem.name}
+        </div>
+      </div>
+    );
+  }
+});
+
 var ToDoForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
@@ -113,15 +109,14 @@ var ToDoForm = React.createClass({
       return;
     }
     this.props.onToDoSubmit({name: name});
-    
     this.refs.name.value = '';
     return;
   },
   render: function() {
     return (
       <form className="toDoForm" onSubmit={this.handleSubmit}>
-        <input type="text" placeholder="Husk" ref="name" />
-        <input type="submit" value="Tilføj" />
+        <input type="text" autoFocus ref="name" />
+        <input type="submit" className="toDoSubmit" value="Tilføj" />
       </form>
     );
   }
