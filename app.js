@@ -2,12 +2,10 @@ var express     = require('express');
 var path        = require('path');
 var bodyParser  = require('body-parser');
 var _           = require('lodash');
-var React       = require('react');
-var ReactDOM    = require('react-dom');
 var util        = require('util');
 
-var app = express();
-var jsonParser = bodyParser.json();
+var app         = express();
+var jsonParser  = bodyParser.json();
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 // lets not bother with a real db
@@ -24,7 +22,7 @@ app.post('/api/todos', jsonParser, function (req, res) {
   if (!req.body) return res.sendStatus(400);
 
   var newItem = {};
-  var id = (+new Date() + Math.floor(Math.random() * 99));
+  var id = (+new Date() + Math.floor(Math.random() * 99)); // ~random id
   newItem.name = req.body.name;
   newItem.id = id;
   db.push(newItem);
